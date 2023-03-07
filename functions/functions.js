@@ -58,7 +58,7 @@ export async function connectToErc20MinedTransactions(alchemy,walletInfo,network
           let todo;
           if (walletInfo.walletList.includes(recepit.to.toLowerCase())) {
             for (var x in recepit.logs) {
-              if(recepit.logs[x].address != recepit.logs[recepit.logs.length-1].address){
+              if(x!=0 && recepit.logs[x].address != recepit.logs[recepit.logs.length-1].address){
                 await alchemy.core
                   .getTokenMetadata(recepit.logs[x].address)
                   .then((metadata) => {
@@ -69,11 +69,10 @@ export async function connectToErc20MinedTransactions(alchemy,walletInfo,network
                         recepit.logs[x].data / Math.pow(10, metadata.decimals),
                     };
                   });
-              }else{
-                console.log("yes");
               }
-              
             }
+            recepit.logs.pop();
+            recepit.logs.shift();
             todo = {
               network: process.argv[2].toLowerCase(),
               address: recepit.to.toLowerCase(),
@@ -88,7 +87,7 @@ export async function connectToErc20MinedTransactions(alchemy,walletInfo,network
           }
           if (walletInfo.walletList.includes(recepit.from.toLowerCase())) {
             for(var x in recepit.logs){ 
-              if(recepit.logs[x].address != recepit.logs[recepit.logs.length-1].address){
+              if(x!=0 && recepit.logs[x].address != recepit.logs[recepit.logs.length-1].address){
                 await alchemy.core
                   .getTokenMetadata(recepit.logs[x].address)
                   .then((metadata) => {
@@ -96,13 +95,13 @@ export async function connectToErc20MinedTransactions(alchemy,walletInfo,network
                       address: recepit.logs[x].address,
                       tokenName: metadata.name,
                       value:
-                        -recepit.logs[x].data / Math.pow(10, metadata.decimals),
+                        recepit.logs[x].data / Math.pow(10, metadata.decimals),
                     };
                 });
-              }else{
-                console.log("yes");
               }
             }
+            recepit.logs.pop();
+            recepit.logs.shift();
             todo = {
               network: network.toLowerCase(),
               address: recepit.from.toLowerCase(),
