@@ -1,0 +1,23 @@
+{
+  "name": "transactionlistener.defen.io",
+  "version": "1.0.0",
+  "description": "Listen to all EVM transactions made by a set of wallet addresses",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "transactionListener"
+  },
+  "author": "Antonio Radessich",
+  "license": "ISC",
+  "dependencies": {
+    "alchemy-sdk": "^2.6.0",
+    "dotenv": "^16.0.3",
+    "ganache": "^7.7.6",
+    "node-fetch": "^3.3.0"
+  }
+}
